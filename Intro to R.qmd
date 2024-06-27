@@ -1,0 +1,268 @@
+---
+title: "SU24 BIO 110 Intro to R"
+format: docx
+editor: visual
+markdown: 
+wrap: "auto"
+---
+
+This tutorial will introduce you to R and how to use it for analyzing and graphing data. I will demonstrate some key features and concepts in class to get you started. Each student should work through the tutorial and turn in your work in Google Classroom. You can work with other students in class and get help from your instructor and/or TAs.
+
+**Before beginning this tutorial you should have read:**
+
+-   Chapter 1: Guts and Glory and Chapter 2: First Do No Harm in The Story of Life by Sean Carroll
+
+-   Data Analysis and Interpretation section (pages 33-46) of the BIO 110 manual
+
+**Learning Objectives:**
+
+-   Introduction to R
+-   How to enter data: manually and by uploading a table, or dataset
+-   How to add a column of calculations to the dataset
+-   How to graph the data, thinking about what types of variables we have
+
+This is a [Quarto document](https://quarto.org/). When you execute code within this document, the results appear beneath the code.
+
+Try executing this chunk by clicking the *Run* (green arrow) button within the chunk or by placing your cursor inside it and pressing *Ctrl (or command)+Shift+Enter*.
+
+```{r}
+
+3*3
+
+```
+
+Let's begin with some basic code to examine how to define variables and datasets and how to write functions in the code block below.
+
+```{r}
+#Any text in a code block preceded by # is a comment. It is a good way to leave notes about the code to document what you are trying to do. 
+
+#Before we can start coding, we need to define some terms and learn how to write some simple code. Let's examine some simple variables, datasets, and functions.
+
+#Here are two ways to define variables x and y. When you run this code block, the values will appear in your environment tab in the upper right window.
+x = 5
+y <- 10
+
+#We can define these as a simple dataset below
+simpleData=c(x, y)
+
+#We can also run basic math functions or more complex functions.
+x/y
+x^2/y+x
+
+
+```
+
+What is a variable? What is a dataset? What is a function?
+
+Define these terms in the code block below in the spots identified by “##”.
+
+```{r, eval=F, echo=T}
+##Define a variable:
+##Define a dataset:
+##Define a function:
+```
+
+R includes packages of functions that can be useful to organize and analyze data. A commonly used one is the [tidyverse](https://www.tidyverse.org/packages/). To use the tidyverse collection of functions we must first install the tidyverse packages and then add tidyverse to our library of functions. We will need two lines of code to do this. Push the green arrow in the code block below to load the tidyverse package.
+
+install.packages("name_of_package")
+
+library(name_of_package)
+
+```{r}
+install.packages("tidyverse")
+library(tidyverse)
+```
+
+After running the code block, you can confirm that the tidyverse package is added to your library by looking in the packages tab in the lower right window. The box next to tidyverse should now be check-marked.
+
+## **Ch. 1 Guts and Glory**
+
+Looking at the table on page 8 in Chapter 1 in The Story of Life, we can see the data collected by Marshall and Warren in 1984 regarding the frequency of *Helicobacter* in stomach diseases.
+
+What are the variables in this data?
+
+```{r, eval=F, echo=T}
+##What are the variables in the Chapter 1 data? 
+
+
+```
+
+We can recreate the dataset in Chapter 1 manually by entering each column of data as a variable. The c() will combine the values in parentheses into a column of data with a column title indicated by any words to the left of \<-
+
+#### **variable \<- c(values separated by commas)**
+
+Give this a try by completing the code block below and enter the numbers in the total column of Table 1.1 in Chapter of the Story of Life (page 8).
+
+```{r}
+# variable <- c(values separated by commas) creates a variable that contains multiple data points.
+
+#The "total" variable contains values that represent the number of patients with a specific type of diagnosis. See page 8 in the Story of Life for values.
+total <- c()
+
+#typing the name of a variable prints the contents of the variable below this code block.
+total
+
+```
+
+Entering data by hand is only feasible when data sets are small. Most of the time data from a spreadsheet is uploaded to R in a .csv, or comma separated value file.
+
+## Importing data into R
+
+How can we import .csv files to R?
+
+Data files can be uploaded into the Files tab of the lower right window in R studio using the upload button. I have already loaded a .csv file into this tutorial with data from chapter 1 of The Story of Life for us to examine.
+
+To work with this data we must read those files into R. We will also assign this dataset a name (ch1Data) so we can easily work with it in future functions. Notice below that we will use a syntax called "camel case". This allows you to string words together without spaces, but preserves quick readability. An alternative is using underscores between words, such as ch1_data.
+
+![](camelCase.png){width="399"}
+
+The following command is used to load data into R: **dataset \<- read_csv("fileName.csv")**
+
+Modify the code below to load the Ch 1 data .csv file. Then run the code block.
+
+```{r}
+ch1Data <- read_csv("")
+ch1Data
+
+```
+
+## Writing a function
+
+Let's calculate the percent with bacteria for each endoscopic appearance using a function. To do this you can designate a specific column in a dataset with this notation: **dataset\$column_title**
+
+```{r}
+percent = (ch1Data$with_bacteria/ch1Data$total)*100
+percent
+```
+
+## Adding a column of data to a dataset
+
+It will be most useful to add a column of the percent with bacteria to our dataset. To do that we can use the pipe function indicated by either of the following notations: \|\> or %\>%
+
+The pipe function can be used like a pipe to funnel data through various functions. Here we will funnel our ch1 dataset to a function called mutate that will add a column of percent calculations to our dataset. It is a good practice to rename any datasets that are modified by your code to preserve the original dataset.
+
+**NewDatasetName\<-dataset %\>% mutate(new column title = function to calculate values for each row of the new column)**
+
+Notice the small change in the code from our previous example calculating the percentages. We have already designated the dataset we are using (ch1Data) and then used the pipe function to create a new column for the percentages. We do not need the \$ before the column names when the code is written this way.
+
+```{r}
+
+Ch1PercentData<-ch1Data %>%
+  mutate("percent" = with_bacteria/total * 100)
+
+Ch1PercentData
+
+```
+
+Now let's examine this data. Answer the following questions below.
+
+```{r, eval=F, echo=T}
+
+#What types of variables do we have? Categorical or continuous?
+
+#What is the independent variable? Should the independent variable go on the x or y axis?
+
+#What is the dependent variable? Should the dependent variable go on the x or y axis?
+
+
+```
+
+## Intro to data visualization with ggplot
+
+[ggplot](https://ggplot2.tidyverse.org/) is a useful system for data visualization. The basic structure for creating a plot, or graph, with ggplot is shown below.
+
+**ggplot(dataset, mapping = aes(x, y, other aesthetics))⁠+ geom_bar(stat="identity")**
+
+The code designates the dataset followed by “mapping” which columns to plot on the x and y axes and then you can enter code for all kinds of aesthetics. Here the fill code colors the bars based on the endoscopic appearance (a different color for each). The “geom_xxx” function specifies the type of graph we want to create, “geom_bar” in the example code is used to create a bar graph.  The geom_bar is followed by the code (stat="identity"). This designates that the values we have calculated for y are used for the graph.
+
+```{r}
+ggplot(Ch1PercentData, mapping=aes(x= endoscopic_appearance, y= percent, fill= endoscopic_appearance))+
+  geom_bar(stat="identity")
+
+```
+
+We now have a bar graph with endoscopic appearance categories along the x-axis and the percent with bacteria along the y-axis. But the labels are a bit too crowded so let's remove the labels for each bar since we have a legend for that information. And we will add better x and y axis labels.
+
+**Graph code from above + theme(axis.text.x=element_blank())+ xlab("Endoscopic Appearance") + ylab("percent with bacteria")**
+
+```{r}
+
+
+```
+
+What trends can we see in this data?
+
+Which endoscopic appearances have the highest association with bacteria?
+
+How can we have more confidence in this association?
+
+## Intro to p-values
+
+The original data table includes p-values in the final column. What is a p-value?
+
+A p-value is the probability that the null hypothesis is true. The null hypothesis is that any difference between samples can be explained by random chance. A p-value\<0.05 means that there is less than a 5% chance that the observed results would be seen by random chance.
+
+([Reference for image](https://www.simplypsychology.org/p-value.html))
+
+![](pValueGraphic.png)
+
+```{r, eval=F, echo=T}
+
+##What does a high p-value (> 0.05) mean? 
+
+##What does a very low p-value (< 0.05) mean?
+
+```
+
+We won't get into how to calculate p-values in this lesson but you can read more [at this website](https://www.scribbr.com/statistics/p-value/). We can add the p-values from the table to our dataset in the following code block.
+
+```{r}
+Ch1P<-Ch1PercentData %>%
+  mutate("p" = c(0.0086, 0.00044, 0.00005, 0.996, 0.78, 0.77, 0.62, 0.84))
+
+Ch1P
+```
+
+Often, data presented in graphs will add an asterisk (or some other indicator) to show which data has p-values \< 0.05. We will customize our graph and add a star to the data that meets that standard below.
+
+Copy the ggplot code from above, changing the dataset to Ch1P **+ geom_text(aes(label = ifelse(p\<0.05, "\*","")), position = position_dodge(width = .9), vjust = 0.5, size = 20 / .pt)**
+
+```{r}
+
+
+```
+
+What is a conclusion you can make from this graph? Write a figure title that includes your conclusion.
+
+You can a title to your graph with the code \[graph code from above\] + ggtitle("your plot title") with your plot title in the quotation marks.
+
+If your title is too long you can modify how many characters wide to wrap the title with this slight modification to the code. The number of the width designates how many characters to display per line before wrapping text to the following line.
+
+**+ggtitle(str_wrap("your plot title", width = 50)**
+
+```{r}
+
+```
+
+If you want to save just the plot you created, you can ctrl + click on the plot and save the image to your computer.
+
+```{r, eval=F, echo=T}
+
+##Does this prove that bacteria cause ulcers? Why or why not?
+
+```
+
+Congratulations! You have completed this R tutorial. Click on the Render button in the toolbar at the top of this window to create a docx copy of this tutorial. You can download this document and save it as a reference for the future. If you scroll back to the header of this tutorial, you will notice that you can choose the format the document will render. Other options are html for website applications or pdf documents.
+
+## Homework Assignment
+
+Now click on the intro_to_R_homework.qmd to complete the homework assignment looking at data presented in the questions of Chapter 2 in the Story of Life. This will open a new qmd tutorial while leaving this tutorial open. You can click back and forth to refer to code from this tutorial as needed to answer the questions. When you are done, render your homework as a Word Document, download the document, and submit a copy in Google Classroom.
+
+**Parting Thoughts:**
+
+-   Learning any language takes persistence and effort.
+-   Don't be afraid to make mistakes. Don't be afraid to ask for help.
+-   Pick a project or dataset relevant to your work, and try using it in R.
+-   Getting an error message or have a question about how to do something? Try a Google search for help. You can also try searching the help tab in the lower right window of posit.cloud.
+-   Need some local help? Reach out to your instructor or TA, visit [the Data Cafe](https://college.lclark.edu/programs/data-science/student-resources/data-cafe/) in Watzek library, email [digitalinitiatives\@lclark.edu](mailto:digitalinitiatives@lclark.edu){.email}, or visit the [SQRC](https://college.lclark.edu/departments/mathematical_sciences/sqrc/).
+-   Another great resource: "An R Companion for the Handbook of Biological Statistics" by Salvatore Mangiafico <https://rcompanion.org/rcompanion/a_06.html>

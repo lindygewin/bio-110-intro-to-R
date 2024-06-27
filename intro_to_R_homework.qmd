@@ -1,0 +1,64 @@
+---
+title: "Intro to R homework"
+author: "Lindy Gewin"
+format: docx
+editor: visual
+---
+
+# Your Name (edit this line)
+
+## **Ch2 First Do No Harm**
+
+Now that you have been introduced to R, take a look at the data from the questions at the end of Chapter 2 of The Story of Life. Question 3 presents a table of data collected from Danish children who received or did not receive the MMR vaccine (1991-1998). Looking at the code we just used, load the chapter 2 data as a data file called ch2Data.
+
+You need to edit the code below to load the data file.
+
+NOTE: It is normal to struggle a bit when learning to code which is similar to learning a new language. But do not waste hours of your time on this assignment. Ask for help through any of the resources listed in the Intro to R tutorial.
+
+```{r}
+library(tidyverse)
+ch2Data <- read_csv("")
+ch2Data
+
+```
+
+Now add a column that calculates the percent with autistic disorder. Refer back to the code we used for Ch1 data.
+
+```{r}
+
+```
+
+How can we visualize this data? Refer to the Intro to R tutorial to write code to make a graph of this data. Be sure to label your axes appropriately.
+
+```{r}
+
+
+```
+
+Repeat the analysis you just did by examining the percent with Autism Spectrum Disorder in each population and make another graph.
+
+```{r}
+
+
+```
+
+What can you conclude about this data? Write a title that is a conclusion for either graph you created. You can a title to your graph with the code \[graph code from above\] + ggtitle("your plot title") with your plot title in the quotation marks.
+
+If your title is too long
+
+```{r}
+
+
+ 
+```
+
+Compare this data from the Danish study to the data presented in Chapter 2 in Wakefield's paper.
+
+```{r, eval=F, echo=T}
+##Which data is more convincing regarding a link between the MMR vaccine and autism?
+
+##Give three reasons why.
+
+```
+
+Render this homework as a Word document. Download the file, rename the document with your name, and upload it to Google Classroom to turn it in.
